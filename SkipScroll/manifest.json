@@ -3,15 +3,19 @@
   "name": "SkipScroll",
   "version": "1.3",
   "description": "Instantly jump to real Google search results using just your keyboard -- Press J to jump down, K to jump up",
-  "permissions": [],
+  "permissions": ["storage", "tabs"],  // ADDED "tabs" PERMISSION
   "icons": {
     "128": "icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-128.png"
   },
   "content_scripts": [
     {
       "matches": ["*://www.google.com/search*"],
       "js": ["content.js"],
-      "run_at": "document_idle"
+      "run_at": "document_start"
     }
   ]
 }
