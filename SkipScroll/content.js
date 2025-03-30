@@ -129,12 +129,12 @@
       }
       if (tag === "TEXTAREA") return;
 
-      if (e.key.toLowerCase() === "j") {
+      if (e.key.toLowerCase() === "j" || e.key === "ArrowDown") {
         e.preventDefault();
         document.body.classList.add("keyboard-nav-active");
         console.log("➡️ Navigating to next result");
         focusResult(currentIndex + 1, true); // always animate scroll for j/k
-      } else if (e.key.toLowerCase() === "k") {
+      } else if (e.key.toLowerCase() === "k" || e.key === "ArrowUp") {
         e.preventDefault();
         document.body.classList.add("keyboard-nav-active");
         console.log("⬅️ Navigating to previous result");
