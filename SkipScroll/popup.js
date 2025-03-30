@@ -20,4 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault(); // Prevent the default link behavior
     chrome.tabs.create({ url: githubLink.href });
   });
+  
+  // Update keyboard shortcut display based on the OS.
+  // If on a Mac, replace "Ctrl" with "CMD"; otherwise, display "Control".
+  const isMac = navigator.platform.toLowerCase().includes('mac');
+  const keyElements = document.querySelectorAll('.shortcut-key');
+  keyElements.forEach((key) => {
+    if (key.textContent.trim() === 'Ctrl') {
+      key.textContent = isMac ? 'Cmd' : 'Ctrl';
+    }
+  });
 });

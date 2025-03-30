@@ -1,18 +1,17 @@
 (() => {
   const url = new URL(window.location.href);
-const tbm = url.searchParams.get("tbm");
-const udm = url.searchParams.get("udm");
+  const tbm = url.searchParams.get("tbm");
+  const udm = url.searchParams.get("udm");
 
-// Extension runs only on "All" tab:
-const isAllTab = !tbm && (!udm || udm === "7");
+  // Extension runs only on "All" tab:
+  const isAllTab = !tbm && (!udm || udm === "7");
 
-if (!isAllTab) {
-  console.log("❌ Not on the 'All' tab – extension script will not run.");
-  return;
-}
+  if (!isAllTab) {
+    console.log("❌ Not on the 'All' tab – extension script will not run.");
+    return;
+  }
 
-
-  console.log("✅ Google Search Navigator script injected - DOM fix v14 (cancel on scroll/click with user-initiated detection, settings integration)");
+  console.log("✅ SkipScroll script injected - DOM fix v14 (cancel on scroll/click with user-initiated detection, settings integration)");
 
   (() => {
     let currentIndex = -1;
@@ -60,7 +59,27 @@ if (!isAllTab) {
       return anchors;
     };
 
-    const focusResult = (index) => {
+    // Custom smooth scroll function with a snappier (shorter) duration.
+    function smoothScrollTo(targetY, duration = 200) {
+      const startY = window.scrollY;
+      const difference = targetY - startY;
+      const startTime = performance.now();
+
+      function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Cubic ease-out: fast at the start, snappy finish.
+        const ease = 1 - Math.pow(1 - progress, 3);
+        window.scrollTo(0, startY + difference * ease);
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      }
+      requestAnimationFrame(animateScroll);
+    }
+
+    // Focus the result; always prevent the default scroll then animate if desired.
+    const focusResult = (index, doScroll = true) => {
       const results = getResults();
       if (results.length === 0) {
         console.log("❌ focusResult: No valid results found");
@@ -71,8 +90,15 @@ if (!isAllTab) {
       const result = results[currentIndex];
       console.log(`🔍 Focusing result ${currentIndex + 1} of ${results.length}`);
       isProgrammaticScroll = true;
-      result.focus();
-      result.scrollIntoView({ behavior: "smooth", block: "center" });
+      // Always prevent the browser's default scrolling.
+      result.focus({ preventScroll: true });
+      if (doScroll) {
+        // Calculate the position to center the element in the viewport.
+        const rect = result.getBoundingClientRect();
+        const elementCenter = rect.top + rect.height / 2;
+        const targetY = window.scrollY + elementCenter - window.innerHeight / 2;
+        smoothScrollTo(targetY, 200);
+      }
       setTimeout(() => { isProgrammaticScroll = false; }, 300);
     };
 
@@ -81,7 +107,7 @@ if (!isAllTab) {
       if (results.length > 0) {
         if (autoSelect && currentIndex === -1) {
           document.body.classList.add("keyboard-nav-active");
-          focusResult(0);
+          focusResult(0, false);  // focus without scrolling on page load
         }
         if (enterPressed) {
           console.log("⏳ Enter was pressed earlier; triggering click on the focused result");
@@ -107,12 +133,12 @@ if (!isAllTab) {
         e.preventDefault();
         document.body.classList.add("keyboard-nav-active");
         console.log("➡️ Navigating to next result");
-        focusResult(currentIndex + 1);
+        focusResult(currentIndex + 1, true); // always animate scroll for j/k
       } else if (e.key.toLowerCase() === "k") {
         e.preventDefault();
         document.body.classList.add("keyboard-nav-active");
         console.log("⬅️ Navigating to previous result");
-        focusResult(currentIndex - 1);
+        focusResult(currentIndex - 1, true);
       } else if (e.key === "Enter") {
         e.preventDefault();
         const results = getResults();
@@ -120,8 +146,17 @@ if (!isAllTab) {
           if (currentIndex === -1) {
             focusResult(0);
           }
-          console.log("⏩ Enter pressed; navigating to the selected result");
-          results[currentIndex].click();
+          const url = results[currentIndex].href;
+          if (e.shiftKey) {
+            console.log("⏩ Shift+Enter pressed; opening result in a new window");
+            window.open(url, 'newwindow', 'width=800,height=600,noopener,noreferrer');
+          } else if (e.ctrlKey || e.metaKey) {
+            console.log("⏩ Ctrl/Cmd+Enter pressed; opening result in a new tab");
+            window.open(url, '_blank');
+          } else {
+            console.log("⏩ Enter pressed; navigating to the selected result");
+            results[currentIndex].click();
+          }
         } else {
           console.log("⏳ Enter pressed but results not ready; will trigger when available");
           enterPressed = true;
@@ -147,8 +182,7 @@ if (!isAllTab) {
         if (results.length > 0 && currentIndex !== -1) {
           if (document.activeElement !== results[currentIndex]) {
             console.log("🔄 DOM change detected; reapplying focus to current result");
-            results[currentIndex].focus();
-            results[currentIndex].scrollIntoView({ behavior: "smooth", block: "center" });
+            focusResult(currentIndex, false); // reapply focus without scrolling
           }
         }
       });
@@ -185,7 +219,7 @@ if (!isAllTab) {
           return;
         }
         if (currentIndex !== -1) {
-          focusResult(currentIndex);
+          focusResult(currentIndex, false); // focus without scrolling on reapplication
         }
         elapsed += intervalTime;
         if (elapsed >= 2000) {
@@ -197,6 +231,6 @@ if (!isAllTab) {
       }, intervalTime);
     });
 
-    console.log("🚀 Google Search Navigator (DOM fix v14) loaded: auto-select, enter buffering, reset on blur, reapply focus on DOM changes, cancel on scroll/click with user-initiated detection, settings integration");
+    console.log("🚀 SkipScroll (DOM fix v14) loaded: auto-select, enter buffering, reset on blur, reapply focus on DOM changes, cancel on scroll/click with user-initiated detection, settings integration");
   })();
 })();
