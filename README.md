@@ -2,7 +2,7 @@
 
 Instantly jump to real Google search results using just your keyboard.
 
-**SkipScroll** makes navigating Google search results fast and easy. Navigate with arrow keys — also supports **VIM navigation** (J and K)
+**SkipScroll** makes navigating Google search results fast and easy. Navigate with arrow keys — also supports **Vim** navigation (J and K)
 
 ---
 
