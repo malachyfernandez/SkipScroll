@@ -9,7 +9,6 @@ Instantly jump to real Google search results using just your keyboard.
 ## ✨ What It Does
 
 - Instantly jumps to the real search results — not ads, not videos, not image carousels.
-- Skips those annoying sidebars and invisible boxes.
 - Uses simple keyboard shortcuts:  
   - Press **▼** or **J** to go down  
   - Press **▲** or **K** to go back up  
@@ -36,23 +35,21 @@ That’s it! You should now see SkipScroll in your list of extensions.
 
 ## 🧠 Why You’ll Love It
 
-You get straight to what matters — the actual links — without fumbling around. It’s especially great for researchers, students, or anyone who uses Google a lot.
+No more fumbling with the mouse or fighting through distractions — just clean, fast search result access. Perfect for students, researchers, and power users.
 
 ---
 
-## 💡 Who’s It For?
+## 💡 Built for people who:
 
-Anyone who:
-- Hates wasting time
-- Wants cleaner, faster browsing
-- Uses Google search more than once a week
+- Use Google a lot
+- Hate wasting time
+- Want a smoother, faster browsing experience
 
 ---
 
 ## 📦 No Tech Required
 
-No confusing menus. No settings. No coding. SkipScroll is built to stay out of your way and just work.
-
+No setup. No confusing menus. SkipScroll is built to stay out of your way and just work.
 
 ---
 
