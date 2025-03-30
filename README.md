@@ -54,7 +54,6 @@ Anyone who:
 No confusing menus. No settings. No coding. SkipScroll is built to stay out of your way and just work.
 
 
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/malachyfernandez/SkipScroll?utm_source=oss&utm_medium=github&utm_campaign=malachyfernandez%2FSkipScroll&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 ---
 
 Enjoy faster searches without the scroll.  
