@@ -6,7 +6,7 @@ Instantly jump to real Google search results using just your keyboard.
 
 ---
 
-## ✨ What It Does
+## 🔍 What It Does
 
 - Instantly jumps to the real search results — not ads, not videos, not image carousels.
 - Uses simple keyboard shortcuts:  
