@@ -2,7 +2,7 @@
 
 Instantly jump to real Google search results using just your keyboard.
 
-**SkipScroll** makes navigating Google search results fast and easy. Just press **J** to jump down, **K** to jump up — no more clicking or scrolling.
+**SkipScroll** makes navigating Google search results fast and easy. Navigate with arrow keys — also supports **VIM navigation** (J and K)
 
 ---
 
@@ -11,8 +11,8 @@ Instantly jump to real Google search results using just your keyboard.
 - Instantly jumps to the real search results — not ads, not videos, not image carousels.
 - Skips those annoying sidebars and invisible boxes.
 - Uses simple keyboard shortcuts:  
-  - Press **J** to go down  
-  - Press **K** to go back up  
+  - Press **▼** or **J** to go down  
+  - Press **▲** or **K** to go back up  
 - Works on any Google search page.
 
 ---
