@@ -1,10 +1,6 @@
 # SkipScroll
 
-Instantly jump to real Google search results using just your keyboard. Press J and K to scroll smarter, skip clutter, and browse faster
-
----
-
-Tired of scrolling through image boxes, video panels, and random sidebars just to get to the *actual* search results on Google?
+Instantly jump to real Google search results using just your keyboard.
 
 **SkipScroll** makes navigating Google search results fast and easy. Just press **J** to jump down, **K** to jump up — no more clicking or scrolling.
 
