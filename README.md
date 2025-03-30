@@ -49,7 +49,7 @@ No more fumbling with the mouse or fighting through distractions — just clean,
 
 ## 📦 No Tech Required
 
-No setup. No confusing menus. SkipScroll is built to stay out of your way and just work.
+No hassel. No confusing menus. SkipScroll is built to stay out of your way and just work.
 
 ---
 
