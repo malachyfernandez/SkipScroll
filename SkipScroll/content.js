@@ -18,10 +18,33 @@
     let enterPressed = false;
     let isProgrammaticScroll = false;
     let autoSelect = true;
+    let useArrowKeys = true;
+    // Default custom key bindings.
+    let customKeys = { next: "j", prev: "k", open: "Enter" };
 
-    chrome.storage.sync.get({ autoSelect: true }, (result) => {
-      autoSelect = result.autoSelect;
-      console.log("AutoSelect setting loaded:", autoSelect);
+    // Retrieve initial settings.
+    chrome.storage.sync.get(
+      { autoSelect: false, arrowKeys: true, customKeys: { next: "j", prev: "k", open: "Enter" } },
+      (result) => {
+        autoSelect = result.autoSelect;
+        useArrowKeys = result.arrowKeys;
+        customKeys = result.customKeys;
+        console.log("Initial settings loaded:", result);
+      }
+    );
+
+    // Listen for storage changes so that keybind updates are live.
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === "sync") {
+        if (changes.arrowKeys) {
+          useArrowKeys = changes.arrowKeys.newValue;
+          console.log("Arrow keys setting updated:", useArrowKeys);
+        }
+        if (changes.customKeys) {
+          customKeys = changes.customKeys.newValue;
+          console.log("Custom keys updated:", customKeys);
+        }
+      }
     });
 
     function injectStyle() {
@@ -59,7 +82,7 @@
       return anchors;
     };
 
-    // Custom smooth scroll function with a snappier (shorter) duration.
+    // Custom smooth scroll function with snappy easing.
     function smoothScrollTo(targetY, duration = 200) {
       const startY = window.scrollY;
       const difference = targetY - startY;
@@ -68,7 +91,6 @@
       function animateScroll(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        // Cubic ease-out: fast at the start, snappy finish.
         const ease = 1 - Math.pow(1 - progress, 3);
         window.scrollTo(0, startY + difference * ease);
         if (progress < 1) {
@@ -78,7 +100,7 @@
       requestAnimationFrame(animateScroll);
     }
 
-    // Focus the result; always prevent the default scroll then animate if desired.
+    // Focus a result and optionally scroll to center it.
     const focusResult = (index, doScroll = true) => {
       const results = getResults();
       if (results.length === 0) {
@@ -90,13 +112,11 @@
       const result = results[currentIndex];
       console.log(`🔍 Focusing result ${currentIndex + 1} of ${results.length}`);
       isProgrammaticScroll = true;
-      // Always prevent the browser's default scrolling.
       result.focus({ preventScroll: true });
       if (doScroll) {
-        // Calculate the position to center the element in the viewport.
         const rect = result.getBoundingClientRect();
         const elementCenter = rect.top + rect.height / 2;
-        const targetY = window.scrollY + elementCenter - window.innerHeight / 2;
+        const targetY = Math.max(0, window.scrollY + elementCenter - window.innerHeight / 2);
         smoothScrollTo(targetY, 200);
       }
       setTimeout(() => { isProgrammaticScroll = false; }, 300);
@@ -107,7 +127,7 @@
       if (results.length > 0) {
         if (autoSelect && currentIndex === -1) {
           document.body.classList.add("keyboard-nav-active");
-          focusResult(0, false);  // focus without scrolling on page load
+          focusResult(0, false);
         }
         if (enterPressed) {
           console.log("⏳ Enter was pressed earlier; triggering click on the focused result");
@@ -118,6 +138,7 @@
       }
     }, 100);
 
+    // Use custom keys and, if enabled, arrow keys as alternatives.
     document.addEventListener("keydown", (e) => {
       const tag = document.activeElement.tagName;
       if (tag === "INPUT") {
@@ -129,17 +150,17 @@
       }
       if (tag === "TEXTAREA") return;
 
-      if (e.key.toLowerCase() === "j" || e.key === "ArrowDown") {
+      if (e.key.toLowerCase() === customKeys.next.toLowerCase() || (useArrowKeys && e.key === "ArrowDown")) {
         e.preventDefault();
         document.body.classList.add("keyboard-nav-active");
         console.log("➡️ Navigating to next result");
-        focusResult(currentIndex + 1, true); // always animate scroll for j/k
-      } else if (e.key.toLowerCase() === "k" || e.key === "ArrowUp") {
+        focusResult(currentIndex + 1, true);
+      } else if (e.key.toLowerCase() === customKeys.prev.toLowerCase() || (useArrowKeys && e.key === "ArrowUp")) {
         e.preventDefault();
         document.body.classList.add("keyboard-nav-active");
         console.log("⬅️ Navigating to previous result");
         focusResult(currentIndex - 1, true);
-      } else if (e.key === "Enter") {
+      } else if (e.key === customKeys.open) {
         e.preventDefault();
         const results = getResults();
         if (results.length > 0) {
@@ -182,7 +203,7 @@
         if (results.length > 0 && currentIndex !== -1) {
           if (document.activeElement !== results[currentIndex]) {
             console.log("🔄 DOM change detected; reapplying focus to current result");
-            focusResult(currentIndex, false); // reapply focus without scrolling
+            focusResult(currentIndex, false);
           }
         }
       });
@@ -219,7 +240,7 @@
           return;
         }
         if (currentIndex !== -1) {
-          focusResult(currentIndex, false); // focus without scrolling on reapplication
+          focusResult(currentIndex, false);
         }
         elapsed += intervalTime;
         if (elapsed >= 2000) {

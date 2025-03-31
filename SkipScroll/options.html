@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to SkipScroll</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Using Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --text-color: #202124;
+      --secondary-text: #5f6368;
+      --border-color: #dadce0;
+      --background: #ffffff;
+      --hover-color: #f8f9fa;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--text-color);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .settings-pointer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--hover-color);
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      animation: bounce 2s infinite ease-in-out;
+      transform-origin: center;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .dismiss-button {
+      background: none;
+      border: none;
+      color: var(--secondary-text);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 0 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s ease;
+    }
+    .dismiss-button:hover { color: var(--text-color); }
+    .settings-pointer.dismissing {
+      transform: translateX(200%) scale(0.8);
+      opacity: 0;
+    }
+    .container {
+      max-width: 900px;
+      padding: 40px;
+      margin: 40px auto;
+      flex: 1;
+    }
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px;
+      background-color: var(--primary-color);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .welcome-title {
+      font-size: 32px;
+      margin: 0;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    .welcome-subtitle {
+      font-size: 18px;
+      color: var(--secondary-text);
+      margin: 12px 0 0;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+      margin-bottom: 32px;
+    }
+    .feature-card {
+      background: var(--hover-color);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .feature-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 16px;
+    }
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 15px;
+      align-items: center;
+      gap: 40px;
+    }
+    .shortcut-combo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .shortcut-key {
+      display: inline-block;
+      background: var(--background);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 4px 16px;
+      min-width: 24px;
+      text-align: center;
+      font-family: monospace;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    /* Arrow key styling same as shortcut-key */
+    .arrow-key {
+      display: inline-block;
+      background: var(--background);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 4px 16px;
+      min-width: 24px;
+      text-align: center;
+      font-family: monospace;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    .arrow-or { display: inline; color: var(--secondary-text); }
+    .settings-card { background: var(--hover-color); border-radius: 16px; padding: 24px 28px; margin-top: 32px; }
+    .setting-item { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+    .setting-label { font-size: 15px; margin-right: 24px; }
+    .setting-description { font-size: 13px; color: var(--secondary-text); margin: 4px 0 0 0; }
+    /* Toggle switch styles */
+    .toggle-switch { position: relative; display: inline-block; width: 48px; height: 24px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 24px; }
+    .slider:before { position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--primary-color); }
+    input:checked + .slider:before { transform: translateX(24px); }
+    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; font-size: 14px; color: var(--secondary-text); }
+    .github-link { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+    /* Keyboard Settings Section */
+    .settings-section { margin-top: 32px; }
+    .settings-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+
+    .customize-button {
+      padding: 8px 16px;
+      margin-top: 20px;
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .top-divider {
+      border-top: 1px solid var(--border-color);
+      margin-top: 20px;
+    }
+
+    .customize-button:hover { background: #357ae8; }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      animation: slideIn 0.3s;
+      font-size: 14px;
+    }
+    @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .close-button { float: right; font-size: 24px; cursor: pointer; }
+    .key-settings { margin-top: 20px; }
+    .key-setting { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .key-display {
+      display: inline-block;
+      padding: 5px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--background);
+      min-width: 50px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .note { font-size: 13px; color: var(--secondary-text); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="settings-pointer" id="settingsPointer">
+    <span class="pointer-text">👉 Click the extension icon to access settings anytime</span>
+    <button class="dismiss-button">×</button>
+  </div>
+  <div class="container">
+    <div class="welcome-header">
+      <div class="logo">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 14l5 5 5-5M7 10l5-5 5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <h1 class="welcome-title">Welcome to SkipScroll</h1>
+      <p class="welcome-subtitle">Navigate search results effortlessly with keyboard shortcuts</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h2 class="feature-title">Navigation Shortcuts</h2>
+        <div class="shortcut-item">
+          <span>Previous result</span>
+          <div class="shortcut-combo">
+            <span class="arrow-key">▲</span>
+            <span class="arrow-or">or</span>
+            <span class="shortcut-key" data-key="prev">K</span>
+          </div>
+        </div>
+        <div class="shortcut-item">
+          <span>Next result</span>
+          <div class="shortcut-combo">
+            <span class="arrow-key">▼</span>
+            <span class="arrow-or">or</span>
+            <span class="shortcut-key" data-key="next">J</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <h2 class="feature-title">Action Shortcuts</h2>
+        <div class="shortcut-item">
+          <span>Open selected result</span>
+          <span class="shortcut-key" data-key="open">Enter</span>
+        </div>
+        <div class="shortcut-item">
+          <span>Open in new tab</span>
+          <div class="shortcut-combo">
+            <span class="shortcut-key" data-key="ctrl">Ctrl</span>
+            <span>+</span>
+            <span class="shortcut-key" data-key="open">Enter</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Keyboard Settings Section -->
+    <div class="settings-card settings-section">
+      <div class="setting-item">
+        <label class="setting-label" for="arrowKeysCheckbox">
+          Use arrow keys (▲/▼) in addition to J/K
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="arrowKeysCheckbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="setting-item top-divider">
+        <button id="customize-keys-button" class="customize-button">Customize Keys</button>
+      </div>
+    </div>
+    <div class="settings-card">
+      <div class="setting-item">
+        <label class="setting-label" for="autoSelectCheckbox">
+          Show highlight on page load
+          <p class="setting-description">You can always press enter regardless</p>
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoSelectCheckbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <footer>
+      SkipScroll • <a href="https://github.com/malachyfernandez/SkipScroll" class="github-link" id="github-link">GitHub</a>
+    </footer>
+  </div>
+  <!-- Modal for customizing keys -->
+  <div id="customizeModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="modalClose">&times;</span>
+      <h2>Customize Keys</h2>
+      <p>Click on a key to change it, then press the new key on your keyboard.</p>
+      <div class="key-settings">
+        <div class="key-setting">
+          <label for="prevKey">Previous Result:</label>
+          <span id="prevKeyDisplay" class="key-display">K</span>
+        </div>
+        <div class="key-setting">
+          <label for="nextKey">Next Result:</label>
+          <span id="nextKeyDisplay" class="key-display">J</span>
+        </div>
+        <div class="key-setting">
+          <label for="openKey">Open Result:</label>
+          <span id="openKeyDisplay" class="key-display">Enter</span>
+        </div>
+      </div>
+      <p class="note">Note: The key your browser uses to select an element (typically Enter) will still work.</p>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

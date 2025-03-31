@@ -1,279 +1,283 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en"><head>
-    <meta charset="utf-8">
-    <title>Google Search Navigator Settings</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;family=Tiny5&amp;display=swap" rel="stylesheet">
-    <style>
-      :root {
-        --primary-color: #4285f4;
-        --text-color: #202124;
-        --secondary-text: #5f6368;
-        --border-color: #dadce0;
-        --background: #ffffff;
-        --hover-color: #f8f9fa;
-      }
-
-      body {
-        font-family: 'Poppins', 'Roboto', 'Segoe UI', Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #fff;
-        color: var(--text-color);
-        line-height: 1.5;
-      }
-
-      .container {
-        padding: 16px;
-        background: var(--background);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        margin: 0 auto;
-        width: 380px;
-      }
-
-      .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 16px;
-        width: 100%;
-      }
-
-      .header-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .logo {
-        width: 30px;
-        height: 30px;
-        margin-right: 8px;
-        background-color: var(--primary-color);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        Flex-shrink: 0;
-      }
-
-      h1 {
-        font-size: 16px;
-        margin: 0;
-        font-weight: 700;
-        color: var(--primary-color);
-      }
-
-      .description {
-        color: var(--secondary-text);
-        font-size: 14px;
-        margin: 0;
-        Line-height: 18px;
-      }
-
-      .content-layout {
-        display: flex;
-        gap: 0;
-        flex-direction: column;
-      }
-
-      .keyboard-shortcuts {
-          background: var(--hover-color);
-          border-radius: 8px;
-          padding: 12px;
-          margin-bottom: 16px;
-          Padding-bottom: 2px;
-          flex: 1;
-      }
-
-      .shortcut-title {
-        font-weight: 500;
-        margin: 0 0 16px;
-        font-size: 16px;
-      }
-
-      .shortcut-key {
-        display: inline-block;
-        background: var(--background);
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-        padding: 3px 10px;
-        margin: 0;
-        font-family: monospace;
-        font-weight: bold;
-        color: var(--primary-color);
-      }
-
-      .shortcut-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        font-size: 15px;
-	align-items: center;
-      }
-
-      .shortcut-combo {
-        display: flex;
-        align-items: center;
-        gap: 3px;
-      }
-
-      .settings-section {
-        flex: 1;
-        background: var(--hover-color);
-        border-radius: 8px;
-        padding: 10px 12px;
-      }
-
-      .settings-title {
-        font-weight: 500;
-        margin: 0 0 16px;
-        font-size: 16px;
-      }
-
-      .setting-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .setting-label {
-        font-size: 15px;
-        margin-right: 12px;
-      }
-
-      .setting-description {
-        font-size: 12px;
-        color: var(--secondary-text);
-        margin: 0;
-      }
-
-      /* Toggle switch styles */
-      .toggle-switch {
-        position: relative;
-        display: inline-block;
-        width: 48px;
-        height: 24px;
-      }
-
-      .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: 0.4s;
-        border-radius: 24px;
-      }
-
-      .slider:before {
-        position: absolute;
-        content: '';
-        height: 18px;
-        width: 18px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: 0.4s;
-        border-radius: 50%;
-      }
-
-      input:checked + .slider {
-        background-color: var(--primary-color);
-      }
-
-      input:checked + .slider:before {
-        transform: translateX(24px);
-      }
-
-      footer {
-        text-align: center;
-        margin-top: 28px;
-        font-size: 13px;
-        color: var(--secondary-text);
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <div class="header">
-        <div class="logo">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 14l5 5 5-5M7 10l5-5 5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </div>
-        <div class="header-title">
-          <p class="description">
-            SkipScroll v1.3 •
-            <a href="https://github.com/malachyfernandez/SkipScroll" style="color: var(--primary-color); text-decoration: none;" id="github-link">
-              GitHub
-            </a>
-          </p>
-        </div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Google Search Navigator Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;family=Tiny5&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --text-color: #202124;
+      --secondary-text: #5f6368;
+      --border-color: #dadce0;
+      --background: #ffffff;
+      --hover-color: #f8f9fa;
+    }
+    * {
+      font-family: 'Poppins', 'Roboto', 'Segoe UI', Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+    .container {
+      padding: 16px;
+      background: var(--background);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      width: 380px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .logo {
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+      background-color: var(--primary-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    h1 {
+      font-size: 16px;
+      margin: 0;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    .description {
+      color: var(--secondary-text);
+      font-size: 14px;
+      margin: 0;
+      line-height: 18px;
+    }
+    .content-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .keyboard-shortcuts {
+      background: var(--hover-color);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .shortcut-key {
+      display: inline-block;
+      background: var(--background);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 3px 10px;
+      margin: 0;
+      font-family: monospace;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    /* Arrow keys use same styling as shortcut-key */
+    .arrow-key {
+      display: inline-block;
+      background: var(--background);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 3px 10px;
+      margin: 0;
+      font-family: monospace;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    .arrow-or {
+      display: inline;
+      color: var(--secondary-text);
+      margin: 0 3px;
+    }
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 15px;
+      align-items: center;
+    }
+    .shortcut-combo {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .settings-section {
+      background: var(--hover-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 16px;
+    }
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .setting-label {
+      font-size: 15px;
+      margin-right: 12px;
+    }
+    .setting-description {
+      font-size: 12px;
+      color: var(--secondary-text);
+      margin: 0;
+    }
+    /* Toggle switch styles */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: '';
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--primary-color);
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 13px;
+      color: var(--secondary-text);
+    }
+    .settings-button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 0;
+      border-radius: 2px;
+      transition: background 0.1s ease, outline 0.1s ease;
+    }
+    .settings-button:hover {
+      background: #f6f6f6;
+      outline: #f6f6f6 solid 4px;
+    }
+    .bullet {
+      margin: 0 6px;
+      color: var(--secondary-text);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 14l5 5 5-5M7 10l5-5 5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
       </div>
-
-      <div class="content-layout">
-        <div class="keyboard-shortcuts">
-          
-
-          <div class="shortcut-item">
-            <span>Move to previous result</span>
-            <div class="shortcut-combo">
-              <span class="shortcut-key">▲</span>
-              <span>or</span>
-              <span class="shortcut-key">K</span>
-            </div>
+      <div class="header-title">
+        <p class="description" style="margin: 0;">
+          SkipScroll<span class="bullet">•</span>
+        </p>
+        <button id="settings-button" class="settings-button">
+          Settings
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 24 24">
+            <path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="content-layout">
+      <div class="keyboard-shortcuts">
+        <div class="shortcut-item">
+          <span>Move to previous result</span>
+          <div class="shortcut-combo">
+            <span class="arrow-key">▲</span>
+            <span class="arrow-or">or</span>
+            <span class="shortcut-key">K</span>
           </div>
-
-          <div class="shortcut-item">
-            <span>Move to next result</span>
-            <div class="shortcut-combo">
-              <span class="shortcut-key">▼</span>
-              <span>or</span>
-              <span class="shortcut-key">J</span>
-            </div>
+        </div>
+        <div class="shortcut-item">
+          <span>Move to next result</span>
+          <div class="shortcut-combo">
+            <span class="arrow-key">▼</span>
+            <span class="arrow-or">or</span>
+            <span class="shortcut-key">J</span>
           </div>
-
-          <div class="shortcut-item">
-            <span>Open selected result</span>
+        </div>
+        <div class="shortcut-item">
+          <span>Open selected result</span>
+          <span class="shortcut-key">Enter</span>
+        </div>
+        <div class="shortcut-item">
+          <span>Open result in new tab</span>
+          <div class="shortcut-combo">
+            <span class="shortcut-key">Ctrl</span>
+            <span>+</span>
             <span class="shortcut-key">Enter</span>
           </div>
-
-          <div class="shortcut-item">
-            <span>Open result in new tab</span>
-            <div class="shortcut-combo">
-              <span class="shortcut-key">Ctrl</span>
-              <span>+</span>
-              <span class="shortcut-key">Enter</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <div class="setting-item">
-            <label class="setting-label" for="autoSelectCheckbox">
-              Show highlight on page load
-              <p class="setting-description">You can always press enter regardless</p>
-            </label>
-            <label class="toggle-switch">
-              <input type="checkbox" id="autoSelectCheckbox">
-              <span class="slider"></span>
-            </label>
-          </div>
         </div>
       </div>
-      <script src="popup.js"></script>
+      <div class="settings-section">
+        <div class="setting-item">
+          <label class="setting-label" for="autoSelectCheckbox">
+            Show highlight on page load
+            <p class="setting-description">You can always press enter regardless</p>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="autoSelectCheckbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
     </div>
-  
-
-</body></html>
+    <footer>
+      SkipScroll • <a href="https://github.com/malachyfernandez/SkipScroll" class="github-link" id="github-link">GitHub</a>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
