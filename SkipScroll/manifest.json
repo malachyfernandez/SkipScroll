@@ -3,7 +3,7 @@
   "name": "SkipScroll",
   "version": "1.3",
   "description": "Instantly jump to real Google search results using just your keyboard",
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage"],
   "icons": {
     "128": "icon-128.png"
   },
