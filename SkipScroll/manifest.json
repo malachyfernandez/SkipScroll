@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "SkipScroll",
-  "version": "1.4",
+  "name": "SkipScroll — Navigate Google With a Keyboard",
+  "version": "1.5",
   "description": "Instantly jump to real Google search results using just your keyboard",
   "permissions": ["storage"],
   "icons": {
