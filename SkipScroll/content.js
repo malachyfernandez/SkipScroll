@@ -138,6 +138,72 @@
       }
     }, 100);
 
+    // Returns true when the user is actively typing into an editable field,
+    // in which case we must never swallow their keystrokes.
+    const isTypingTarget = () => {
+      const el = document.activeElement;
+      if (!el) return false;
+      const tag = el.tagName;
+      // The Google search box (name="q") is treated as navigable, not typing.
+      if (tag === "INPUT") return el.name !== "q";
+      if (tag === "TEXTAREA") return true;
+      return el.isContentEditable;
+    };
+
+    // Locate a generic "Show more" / "See more" toggle button (e.g. the AI
+    // Overview expander) anywhere on the page. Prefers semantic ARIA hooks and
+    // falls back to visible button text so it keeps working across layouts.
+    const findShowMoreButton = () => {
+      const labelSelectors = [
+        '[role="button"][aria-label*="Show more" i]',
+        '[role="button"][aria-label*="See more" i]',
+        'button[aria-label*="Show more" i]',
+        'button[aria-label*="See more" i]'
+      ];
+      for (const sel of labelSelectors) {
+        const candidates = Array.from(document.querySelectorAll(sel)).filter(isVisible);
+        if (candidates.length) return candidates[0];
+      }
+      // Fallback: match visible button-like elements by their text content.
+      const textRe = /^(show|see)\s+more$/i;
+      const buttons = document.querySelectorAll('[role="button"], button');
+      for (const btn of buttons) {
+        if (!isVisible(btn)) continue;
+        const text = (btn.textContent || "").trim();
+        if (textRe.test(text)) return btn;
+      }
+      return null;
+    };
+
+    // Simulate a real user click on the toggle so its native handler runs,
+    // expanding (or collapsing) the AI Overview just like clicking it would.
+    const toggleShowMore = (btn) => {
+      btn.scrollIntoView({ behavior: "smooth", block: "center" });
+      btn.focus({ preventScroll: true });
+      ["pointerdown", "mousedown", "pointerup", "mouseup", "click"].forEach((type) => {
+        btn.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
+      });
+    };
+
+    // Pressing "M" acts exactly like clicking the "Show more" button: it toggles
+    // the AI Overview open/closed. Runs in the capture phase so it beats any of
+    // Google's own page-level key handlers.
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (isTypingTarget()) return;
+      if (e.key.toLowerCase() !== "m") return;
+      const btn = findShowMoreButton();
+      if (!btn) {
+        console.log('ℹ️ "M" pressed but no "Show more" button was found on the page.');
+        return;
+      }
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      const expanded = btn.getAttribute("aria-expanded");
+      console.log(`📖 "M" pressed; toggling "Show more" (was aria-expanded=${expanded})`);
+      toggleShowMore(btn);
+    }, true);
+
     // Use custom keys and, if enabled, arrow keys as alternatives.
     document.addEventListener("keydown", (e) => {
       const tag = document.activeElement.tagName;

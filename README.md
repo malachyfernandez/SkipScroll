@@ -12,6 +12,7 @@ Instantly jump to real Google search results using just your keyboard.
 - Uses simple keyboard shortcuts:  
   - Press **▼** or **J** to go down  
   - Press **▲** or **K** to go back up  
+  - Press **M** to expand or collapse Google’s AI Overview (“Show more”)  
 - Works on any Google search page.
 
 ---
