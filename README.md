@@ -1,3 +1,5 @@
+![SkipScroll](cover.jpg)
+
 # SkipScroll
 
 Instantly jump to real Google search results using just your keyboard.
